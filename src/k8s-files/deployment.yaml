@@ -1,28 +1,28 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dotnet-deployment
-  namespace: k8s-demo-namespace
+  name: restapi-deployment      # Name of the deployment
+  namespace: k8s-tutorial       # In which namespace it will be created
   labels:
-    app: webserver
+    app: restapi-pod
 spec:
-  replicas: 3
+  replicas: 3                   # How many pods will be created
   strategy: 
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: webserver
+      app: restapi-pod          # Which Pods to manage
   template:
     metadata:
       labels:
-        app: webserver
+        app: restapi-pod
     spec:
       containers:
-      - name: webserver
-        image: hugoparedes/ping-api:latest
+      - name: restapi-container # Name of the container
+        image: nginx:1.14.2
+
         ports:
         - containerPort: 80
         resources:
@@ -32,17 +32,3 @@ spec:
           limits:
             cpu: 200m
             memory: 200Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: webserver-service
-  namespace: k8s-demo-namespace
-spec:
-  selector:
-    app: webserver
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 8888
-      targetPort: 80

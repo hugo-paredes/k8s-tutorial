@@ -2,6 +2,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: k8s-demo-namespace
+  name: k8s-tutorial
   labels:
-    name: k8s-demo-namespace
+    name: k8s-tutorial

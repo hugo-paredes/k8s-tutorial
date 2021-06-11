@@ -1,19 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dotnet-ingress
-  namespace: k8s-demo-namespace
+  name: restapi-ingress               # Name of the Ingress
+  namespace: k8s-tutorial             # In which namespace it will be created
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-  - host: ping-me.info
+  - host: k8s-tutorial.info           # Host
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: webserver-service
+            name: restapi-service
             port:
-              number: 8888
+              number: 18080
