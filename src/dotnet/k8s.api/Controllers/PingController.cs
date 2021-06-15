@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace k8s.api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PingController : ControllerBase
     {
         private readonly ILogger<PingController> _logger;
@@ -16,6 +16,7 @@ namespace k8s.api.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
         public Ping Get()
         {
             return new Ping();

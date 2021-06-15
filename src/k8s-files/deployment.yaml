@@ -1,28 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: restapi-deployment      # Name of the deployment
+  name: pingapi-deployment      # Name of the deployment
   namespace: k8s-tutorial       # In which namespace it will be created
   labels:
-    app: restapi-pod
+    app: pingapi-pod
 spec:
-  replicas: 3                   # How many pods will be created
+  replicas: 1                   # How many pods will be created
   strategy: 
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: restapi-pod          # Which Pods to manage
+      app: pingapi-pod          # Which Pods to manage
   template:
     metadata:
       labels:
-        app: restapi-pod
+        app: pingapi-pod
     spec:
       containers:
-      - name: restapi-container # Name of the container
-        image: nginx:1.14.2
-
+      - name: pingapi           # Name of the container
+        image: nginx
+        # env:
+        #   - name: ASPNETCORE_URLS
+        #     value: http://+:80
         ports:
         - containerPort: 80
         resources:

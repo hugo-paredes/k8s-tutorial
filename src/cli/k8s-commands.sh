@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo " * Delete namespace"
-kubectl delete namespace k8s-demo-namespace
+# echo " * Delete namespace"
+kubectl delete namespace k8s-tutorial
 
 echo " * Create namespace"
 kubectl apply -f ./src/k8s-files/namespace.yaml

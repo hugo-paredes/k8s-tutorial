@@ -5,9 +5,9 @@ metadata:
   namespace: k8s-tutorial   # In which namespace it will be created
 spec:
   selector:
-    app: restapi-pod        # Which Pods will be targeted
+    app: pingapi-pod        # Which Pods will be targeted
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 18080           # Port used by the service
-    targetPort: 80        # Target port in the Pod
+    port: 5000           # Port used by the service
+    targetPort: 80       # Target port in the Pod
