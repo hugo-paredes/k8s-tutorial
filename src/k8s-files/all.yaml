@@ -30,9 +30,11 @@ spec:
       containers:
       - name: restapi-container
         image: hugoparedes/ping-api:1.1.0
-
         ports:
         - containerPort: 80
+        env:
+          - name: ASPNETCORE_URLS
+            value: http://+:80
         resources:
           requests:
             cpu: 100m
