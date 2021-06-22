@@ -1,0 +1,78 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: k8s-tutorial
+  labels:
+    name: k8s-tutorial
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi-deployment
+  namespace: k8s-tutorial
+  labels:
+    app: restapi-pod
+spec:
+  replicas: 3
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: restapi-pod
+  template:
+    metadata:
+      labels:
+        app: restapi-pod
+    spec:
+      containers:
+      - name: restapi-container
+        image: hugoparedes/ping-api:1.1.0
+
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-service
+  namespace: k8s-tutorial
+spec:
+  selector:
+    app: restapi-pod
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 18080
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: restapi-ingress
+  namespace: k8s-tutorial
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  rules:
+  - host: k8s-tutorial.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: restapi-service
+            port:
+              number: 18080
